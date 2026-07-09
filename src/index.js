@@ -343,14 +343,17 @@ client.on('interactionCreate', async (interaction) => {
       });
 
       const number = nextResolutionNumber(config);
+      // The proposer automatically counts as the first sponsor - they
+      // don't need to run /sponsor add on their own resolution.
+      const sponsors = [interaction.user.id];
       const resolution = {
         number,
         title: `${templateName}${subcategory ? ` — ${subcategory}` : ''} — ${fields[template.fields[0]]}`.slice(0, 200),
         templateName,
         subcategory,
         fields,
-        sponsors: [],
-        status: config.sponsorsRequired > 0 ? 'Awaiting Sponsors' : 'Under Administrative Review',
+        sponsors,
+        status: sponsors.length >= config.sponsorsRequired ? 'Under Administrative Review' : 'Awaiting Sponsors',
         submittedBy: interaction.user.id,
         submittedByTag: interaction.user.tag,
         createdAt: Date.now(),
@@ -362,9 +365,12 @@ client.on('interactionCreate', async (interaction) => {
 
       // Reply immediately, then handle the slower side effects afterward
       // so we never risk missing Discord's 3-second reply window.
+      const stillNeeded = config.sponsorsRequired - resolution.sponsors.length;
       await interaction.reply({
-        content: `✅ Your resolution **${resolution.number}** has been submitted! ${
-          config.sponsorsRequired > 0 ? `It needs ${config.sponsorsRequired} sponsor(s) — use \`/sponsor add\`.` : 'It is now under review.'
+        content: `✅ Your resolution **${resolution.number}** has been submitted! You are automatically its first sponsor. ${
+          stillNeeded > 0
+            ? `It needs ${stillNeeded} more sponsor(s) — ask others to use \`/sponsor add\`.`
+            : 'It is now under review.'
         }`,
         embeds: [resolutionEmbed(resolution)],
         ephemeral: true,
