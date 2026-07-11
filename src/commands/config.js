@@ -2,10 +2,11 @@
 // This is the heart of "nothing is hardcoded". Admins use this to set
 // roles, channels, quorum %, majority %, durations, vote weights, etc.
 
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { getConfig, setValue, getValue } = require('../lib/config');
+const { SlashCommandBuilder, PermissionFlagsBits, AttachmentBuilder } = require('discord.js');
+const { getConfig, setValue, getValue, setFullConfig } = require('../lib/config');
 const { isAdmin } = require('../lib/permissions');
 const { renderConfigView } = require('../lib/configView');
+const { logAudit } = require('../lib/audit');
 
 const ROLE_KEY_CHOICES = [
   { name: 'Admin', value: 'roles.admin' },
@@ -36,6 +37,15 @@ module.exports = {
     .setDescription('View or change TUN bot configuration (admin only)')
     .addSubcommand((sub) =>
       sub.setName('view').setDescription('Show the current configuration')
+    )
+    .addSubcommand((sub) =>
+      sub.setName('backup').setDescription('Download a backup file of the entire current configuration')
+    )
+    .addSubcommand((sub) =>
+      sub
+        .setName('restore')
+        .setDescription('Restore configuration from a backup file created by /config backup')
+        .addAttachmentOption((opt) => opt.setName('file').setDescription('The .json backup file to restore').setRequired(true))
     )
     .addSubcommand((sub) =>
       sub
@@ -252,6 +262,58 @@ module.exports = {
     if (sub === 'view') {
       const { embed, components } = renderConfigView(config, null);
       return interaction.reply({ embeds: [embed], components, ephemeral: true });
+    }
+
+    if (sub === 'backup') {
+      const json = JSON.stringify(config, null, 2);
+      const buffer = Buffer.from(json, 'utf8');
+      const filename = `tun-bot-config-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      const attachment = new AttachmentBuilder(buffer, { name: filename });
+
+      return interaction.reply({
+        content:
+          '📦 Here is a full backup of the current configuration. **Download this file and save it somewhere safe** (your computer, cloud storage, etc.) - if settings are ever lost or you want to roll back, upload it with `/config restore`.',
+        files: [attachment],
+      });
+    }
+
+    if (sub === 'restore') {
+      const attachment = interaction.options.getAttachment('file');
+      if (!attachment || !attachment.name.toLowerCase().endsWith('.json')) {
+        return interaction.reply({ content: '❌ Please attach a `.json` backup file created by `/config backup`.', ephemeral: true });
+      }
+
+      await interaction.deferReply({ ephemeral: true });
+
+      try {
+        const response = await fetch(attachment.url);
+        const text = await response.text();
+        const parsed = JSON.parse(text);
+
+        // Basic sanity check so we don't overwrite everything with some
+        // unrelated JSON file someone accidentally attached.
+        if (!parsed.roles || !parsed.channels || !parsed.securityCouncil || !parsed.elections) {
+          return interaction.editReply({ content: "❌ That file doesn't look like a valid TUN bot configuration backup." });
+        }
+
+        // Automatically back up whatever is about to be overwritten, so a
+        // restore can never truly destroy anything - even a mistaken one.
+        const preRestoreJson = JSON.stringify(config, null, 2);
+        const preRestoreAttachment = new AttachmentBuilder(Buffer.from(preRestoreJson, 'utf8'), {
+          name: `pre-restore-backup-${Date.now()}.json`,
+        });
+
+        setFullConfig(parsed);
+        logAudit(interaction.client, 'Configuration Restored', `Configuration restored from an uploaded backup by ${interaction.user.tag}.`).catch((err) => console.error(err));
+
+        return interaction.editReply({
+          content: '✅ Configuration restored from the uploaded backup. For safety, here is a backup of what was just replaced, in case you need to undo this:',
+          files: [preRestoreAttachment],
+        });
+      } catch (err) {
+        console.error('Failed to restore config:', err);
+        return interaction.editReply({ content: "❌ Couldn't restore from that file - make sure it's valid JSON from a real `/config backup`." });
+      }
     }
 
     if (sub === 'add-role') {
