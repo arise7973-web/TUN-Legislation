@@ -1,5 +1,5 @@
 [
-{
+  {
   "name": "Constitutional Affairs",
   "subcategories": [
     "Constitutional Amendment",
@@ -29,7 +29,6 @@
     "Ministry Dissolution",
     "Committee Creation",
     "Committee Dissolution",
-    "Government Accountability Review",
     "Delegation of Authority",
     "Government Procedure Reform"
   ],
@@ -62,7 +61,7 @@
     "Duration / Conditions"
   ],
   "enabled": true,
-  "requiresSupermajority": false,
+  "requiresSupermajority": true,
   "allowedRole": null,
   "body": "GA",
   "vetoable": false
@@ -77,8 +76,7 @@
     "Budget Amendment",
     "Resource Distribution",
     "Economic Incentive Program",
-    "Bank Reserve Policy",
-    "Financial Assistance Policy"
+    "Bank Reserve Policy"
   ],
   "fields": [
     "Policy Name",
@@ -92,7 +90,8 @@
   "body": "GA",
   "vetoable": false
 },
-{
+
+  {
   "name": "Foreign Affairs",
   "subcategories": [
     "Mutual Defence Treaty",
@@ -101,8 +100,7 @@
     "Alliance Recognition",
     "Recognition Withdrawal",
     "Treaty Ratification",
-    "Treaty Withdrawal",
-    "Diplomatic Mission"
+    "Treaty Withdrawal"
   ],
   "fields": [
     "Alliance",
@@ -111,32 +109,7 @@
     "Terms"
   ],
   "enabled": true,
-  "requiresSupermajority": false,
-  "allowedRole": null,
-  "body": "GA",
-  "vetoable": false
-},
-
-{
-  "name": "Administrative Affairs",
-  "subcategories": [
-    "Official Alliance Policy",
-    "Election Procedure",
-    "Referendum Procedure",
-    "Audit Procedure",
-    "Record Keeping",
-    "Government Calendar",
-    "Alliance Celebration",
-    "Administrative Reform"
-  ],
-  "fields": [
-    "Title",
-    "Description",
-    "Reason",
-    "Implementation"
-  ],
-  "enabled": true,
-  "requiresSupermajority": false,
+  "requiresSupermajority": true,
   "allowedRole": null,
   "body": "GA",
   "vetoable": false
@@ -148,8 +121,7 @@
     "Vote of No Confidence",
     "Official Censure",
     "Investigation Authorization",
-    "Ethics Policy",
-    "Conflict of Interest Review"
+    "Ethics Policy"
   ],
   "fields": [
     "Subject",
@@ -167,20 +139,22 @@
   "name": "Alliance Standards",
   "subcategories": [
     "Activity Standards",
-    "Military Readiness Standards",
+    "Infrastructure Standards",
+    "Land Standards",
     "MMR Standards",
     "Warchest Standards",
-    "Infrastructure Standards",
-    "Resource Standards",
     "City Build Standards",
+    "Project Standards",
+    "Resource Standards",
     "Raid Standards",
-    "Spy Standards"
+    "Spy Standards",
+    "Color Bloc Policy"
   ],
   "fields": [
-    "Standard",
-    "Current Requirement",
-    "Proposed Requirement",
-    "Reason"
+    "Current Standard",
+    "Proposed Standard",
+    "Reason",
+    "Effective Date"
   ],
   "enabled": true,
   "requiresSupermajority": false,
@@ -191,12 +165,14 @@
 {
   "name": "Strategic Development",
   "subcategories": [
-    "Growth Strategy",
     "Recruitment Strategy",
-    "Training Program",
+    "Recruitment Incentive Program",
+    "Member Retention Strategy",
     "Mentorship Program",
+    "Training Program",
     "Economic Development Strategy",
     "Technology Initiative",
+    "Alliance Expansion Strategy",
     "Long-term Alliance Goals"
   ],
   "fields": [
@@ -212,17 +188,18 @@
   "vetoable": false
 },
 
-{
+  {
   "name": "Military Operations",
   "subcategories": [
-    "Declare War",
-    "Authorize Military Intervention",
+    "Authorize Offensive War",
+    "Authorize Defensive War",
+    "Authorize Military Operation",
     "Authorize Counteroffensive",
-    "Military Withdrawal",
-    "Military Ceasefire",
+    "Authorize Coalition Participation",
     "Authorize Alliance-wide Raid Campaign",
-    "Authorize Coalition Support",
-    "Military Mobilization"
+    "Authorize Military Withdrawal",
+    "Authorize Military Ceasefire",
+    "Authorize Peace Negotiation"
   ],
   "fields": [
     "Target",
@@ -231,7 +208,7 @@
     "Duration"
   ],
   "enabled": true,
-  "requiresSupermajority": false,
+  "requiresSupermajority": true,
   "allowedRole": null,
   "body": "SC",
   "vetoable": false
@@ -239,14 +216,15 @@
 {
   "name": "Military Doctrine",
   "subcategories": [
-    "Peace Time Military Doctrine",
-    "War Time Military Doctrine",
-    "Mandatory Military Build",
+    "Peace-time Military Doctrine",
+    "War-time Military Doctrine",
+    "Minimum MMR Requirement",
     "Minimum Aircraft Requirement",
     "Minimum Navy Requirement",
+    "Minimum Soldier Requirement",
     "Military Readiness Order",
-    "War Priorities",
-    "Rules of Engagement"
+    "Rules of Engagement",
+    "War Priority Directive"
   ],
   "fields": [
     "Policy",
@@ -265,10 +243,12 @@
   "subcategories": [
     "Mass Espionage Campaign",
     "Counter-Espionage Operation",
-    "Intelligence Sharing",
     "Spy Network Expansion",
+    "Intelligence Sharing",
     "Surveillance Authorization",
-    "Covert Operation Approval"
+    "Reconnaissance Operation",
+    "Covert Operation Approval",
+    "Counter-Intelligence Directive"
   ],
   "fields": [
     "Target",
@@ -282,40 +262,18 @@
   "body": "SC",
   "vetoable": false
 },
-{
-  "name": "Emergency Powers",
-  "subcategories": [
-    "State of Emergency",
-    "National Mobilization",
-    "Emergency Defence Funding",
-    "Emergency Economic Measures",
-    "Emergency Executive Authority",
-    "Crisis Response Measures"
-  ],
-  "fields": [
-    "Emergency",
-    "Reason",
-    "Measures",
-    "Duration"
-  ],
-  "enabled": true,
-  "requiresSupermajority": true,
-  "allowedRole": null,
-  "body": "SC",
-  "vetoable": false
-},
 
-{
+  {
   "name": "Security Measures",
   "subcategories": [
     "Alliance Embargo",
     "Military Sanctions",
-    "Travel Restriction",
     "Blacklist Nation",
     "Blacklist Alliance",
+    "Threat Classification",
     "Security Watchlist",
-    "Threat Designation",
-    "Hostile Alliance Classification"
+    "Declare Hostile Alliance",
+    "Declare Rogue Nation"
   ],
   "fields": [
     "Target",
@@ -333,17 +291,18 @@
   "name": "Strategic Operations",
   "subcategories": [
     "Operation Approval",
-    "Operation Cancellation",
-    "Operation Extension",
     "Operation Expansion",
+    "Operation Extension",
+    "Operation Suspension",
     "Operation Termination",
     "Coalition Operation",
-    "Special Military Operation"
+    "Special Military Operation",
+    "Joint Intelligence Operation"
   ],
   "fields": [
     "Operation Name",
     "Objective",
-    "Description",
+    "Operational Plan",
     "Duration"
   ],
   "enabled": true,
@@ -353,61 +312,21 @@
   "vetoable": false
 },
 {
-  "name": "Alliance Defence",
+  "name": "Emergency Powers",
   "subcategories": [
-    "Defence Readiness",
-    "Border Defence",
-    "Counter-Raid Measures",
-    "Strategic Defence Plan",
-    "Emergency Defence Plan",
-    "Mutual Defence Activation"
+    "State of Emergency",
+    "General Mobilization",
+    "Emergency Military Funding",
+    "Emergency Economic Measures",
+    "Emergency Intelligence Measures",
+    "Emergency Executive Authority",
+    "Emergency Defensive Measures",
+    "Emergency Resource Allocation"
   ],
   "fields": [
-    "Proposal",
+    "Emergency",
     "Reason",
-    "Implementation",
-    "Duration"
-  ],
-  "enabled": true,
-  "requiresSupermajority": false,
-  "allowedRole": null,
-  "body": "SC",
-  "vetoable": false
-},
-{
-  "name": "Diplomatic Security",
-  "subcategories": [
-    "Recognize Military Threat",
-    "Authorize Diplomatic Warning",
-    "Issue Security Advisory",
-    "Approve Military Cooperation",
-    "Approve Defence Consultation"
-  ],
-  "fields": [
-    "Target",
-    "Proposal",
-    "Reason",
-    "Duration"
-  ],
-  "enabled": true,
-  "requiresSupermajority": false,
-  "allowedRole": null,
-  "body": "SC",
-  "vetoable": false
-},
-{
-  "name": "Emergency Directives",
-  "subcategories": [
-    "Immediate Military Order",
-    "Immediate Defensive Action",
-    "Immediate Evacuation Order",
-    "Emergency Intelligence Directive",
-    "Temporary Security Restriction"
-  ],
-  "fields": [
-    "Directive",
-    "Reason",
-    "Immediate Action",
+    "Emergency Measures",
     "Duration"
   ],
   "enabled": true,
