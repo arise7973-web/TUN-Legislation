@@ -8,23 +8,26 @@
       "1393450122750464043"
     ],
     "sponsorEligible": [],
-    "gaReviewer": []
+    "gaReviewer": [1399489019494142013]
   },
   "channels": {
     "review": "1522690514678321344",
-    "debate": "1522690748716290109",
+    "debate": "1515328177252339925",
     "voting": "1522690594563031220",
     "archive": "1522690623436751039",
     "audit": "1522690693187764374",
     "notifications": "1522690748716290109"
   },
-  "voteWeights": {},
+  "voteWeights": {  
+  "1407904671846105138": 3,
+  "1438259031918772436": 2
+  },
   "quorumPercent": 30,
   "majorityPercent": 50,
   "supermajorityPercent": 60,
   "debateDurationMinutes": 7200,
   "votingDurationMinutes": 7200,
-  "sponsorsRequired": 1,
+  "sponsorsRequired": 2,
   "allowVoteChanges": false,
   "publicVoting": false,
   "liveResultsDuringVote": false,
@@ -34,17 +37,17 @@
     "mentionsEnabled": true,
     "ga": {
       "mentionType": "none",
-      "roleId": ""
+      "roleId": "1393450122750464043"
     },
     "sc": {
-      "mentionType": "none",
+      "mentionType": "everyone",
       "roleId": ""
     }
   },
   "amendments": {
     "enabled": true,
-    "debateDurationMinutes": 1440,
-    "votingDurationMinutes": 1440,
+    "debateDurationMinutes": 2880,
+    "votingDurationMinutes": 7200,
     "quorumPercent": 30,
     "majorityPercent": 50
   },
@@ -62,7 +65,7 @@
       "permanentMember": [
         "1407904671846105138"
       ],
-      "reviewer": []
+      "reviewer": [1523221136337408040]
     },
     "channels": {
       "review": "1523011384399630368",
@@ -70,13 +73,13 @@
       "voting": "1522982053078106263",
       "archive": "1522690623436751039",
       "audit": "1523328886245687356",
-      "notifications": ""
+      "notifications": "1523012155325157376"
     },
     "quorumPercent": 30,
     "majorityPercent": 50,
     "supermajorityPercent": 67,
-    "debateDurationMinutes": 1440,
-    "votingDurationMinutes": 1440,
+    "debateDurationMinutes": 7200,
+    "votingDurationMinutes": 7200,
     "veto": {
       "enabled": true,
       "immediatelyTerminates": true,
