@@ -36,7 +36,7 @@
   "announcements": {
     "mentionsEnabled": true,
     "ga": {
-      "mentionType": "none",
+      "mentionType": "role",
       "roleId": "1393450122750464043"
     },
     "sc": {
@@ -65,7 +65,7 @@
       "permanentMember": [
         "1407904671846105138"
       ],
-      "reviewer": [1523221136337408040]
+      "reviewer": ["1523221136337408040"]
     },
     "channels": {
       "review": "1523011384399630368",
