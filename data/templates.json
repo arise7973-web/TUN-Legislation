@@ -1,139 +1,219 @@
-[
-  {
-    "name": "Military Intervention",
-    "fields": [
-      "Target",
-      "Purpose",
-      "Objectives",
-      "Duration",
-      "Funding"
-    ],
-    "enabled": true,
-    "requiresSupermajority": true,
-    "allowedRole": null
-  },
-  {
-    "name": "Alliance Embargo",
-    "fields": [
-      "Target",
-      "Purpose",
-      "Duration",
-      "Notes"
-    ],
-    "enabled": true,
-    "requiresSupermajority": false,
-    "allowedRole": null,
-    "body": "GA",
-    "vetoable": true
-  },
-  {
-    "name": "Mass Espionage Attack",
-    "fields": [
-      "Target",
-      "Purpose",
-      "Duration"
-    ],
-    "enabled": true,
-    "requiresSupermajority": false,
-    "allowedRole": null,
-    "body": "Both",
-    "vetoable": true
-  },
-  {
-    "name": "Join Global War",
-    "fields": [
-      "Target",
-      "Purpose"
-    ],
-    "enabled": true,
-    "requiresSupermajority": false,
-    "allowedRole": null,
-    "body": "SC",
-    "vetoable": true
-  },
-  {
-    "name": "Membership Suspension",
-    "fields": [
-      "Nation",
-      "Reason",
-      "Suspension Length",
-      "Condition(s) for Reinstatement"
-    ],
-    "enabled": true,
-    "requiresSupermajority": false,
-    "allowedRole": null,
-    "body": "GA",
-    "vetoable": true
-  },
-  {
-    "name": "Membership Expulsion",
-    "fields": [
-      "Nation",
-      "Reason",
-      "Evidence/Context",
-      "Effective Date"
-    ],
-    "enabled": true,
-    "requiresSupermajority": true,
-    "allowedRole": null,
-    "body": "GA",
-    "vetoable": true
-  },
-  {
-    "name": "Constitutional Amendment",
-    "fields": [
-      "Article",
-      "Current Text",
-      "Proposed Text",
-      "Reason for Amendment",
-      "Expected Impact"
-    ],
-    "enabled": true,
-    "requiresSupermajority": true,
-    "allowedRole": null,
-    "body": "GA",
-    "vetoable": true
-  },
-  {
-    "name": "Vote of Confidence",
-    "fields": [
-      "Official",
-      "Position",
-      "Reason"
-    ],
-    "enabled": true,
-    "requiresSupermajority": false,
-    "allowedRole": null,
-    "body": "GA",
-    "vetoable": true
-  },
-  {
-    "name": "Vote of No Confidence",
-    "fields": [
-      "Official",
-      "Position",
-      "Grounds",
-      "Evidence"
-    ],
-    "enabled": true,
-    "requiresSupermajority": false,
-    "allowedRole": null,
-    "body": "GA",
-    "vetoable": true
-  },
-  {
-    "name": "Economic Policy",
-    "fields": [
-      "Policy Name (e.g. Tax Changes",
-      "Grant Policy)",
-      "Description",
-      "Justification",
-      "Effective Date"
-    ],
-    "enabled": true,
-    "requiresSupermajority": false,
-    "allowedRole": null,
-    "body": "GA",
-    "vetoable": true
-  }
-]
+{
+  "name": "Constitutional Affairs",
+  "subcategories": [
+    {
+      "name": "Constitutional Amendment",
+      "fields": [
+        "Article",
+        "Current Text",
+        "Proposed Text",
+        "Reason for Amendment",
+        "Expected Impact"
+      ],
+      "enabled": true,
+      "requiresSupermajority": true,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    },
+    {
+      "name": "Interpretation of Constitution",
+      "fields": [
+        "Article",
+        "Issue",
+        "Requested Interpretation",
+        "Reason"
+      ],
+      "enabled": true,
+      "requiresSupermajority": false,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    },
+    {
+      "name": "Constitutional Repeal",
+      "fields": [
+        "Article",
+        "Reason for Repeal",
+        "Expected Impact"
+      ],
+      "enabled": true,
+      "requiresSupermajority": true,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    },
+    {
+      "name": "Government Structure Reform",
+      "fields": [
+        "Current Structure",
+        "Proposed Structure",
+        "Reason",
+        "Implementation"
+      ],
+      "enabled": true,
+      "requiresSupermajority": true,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    }
+  ]
+}
+{
+  "name": "Governance",
+  "subcategories": [
+    {
+      "name": "Government Policy",
+      "fields": [
+        "Policy Name",
+        "Description",
+        "Reason",
+        "Effective Date"
+      ],
+      "enabled": true,
+      "requiresSupermajority": false,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    },
+    {
+      "name": "Government Appointment Confirmation",
+      "fields": [
+        "Nominee",
+        "Position",
+        "Reason"
+      ],
+      "enabled": true,
+      "requiresSupermajority": false,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    },
+    {
+      "name": "Government Removal",
+      "fields": [
+        "Official",
+        "Position",
+        "Reason",
+        "Evidence"
+      ],
+      "enabled": true,
+      "requiresSupermajority": true,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    },
+    {
+      "name": "Committee Creation",
+      "fields": [
+        "Committee Name",
+        "Purpose",
+        "Responsibilities"
+      ],
+      "enabled": true,
+      "requiresSupermajority": false,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    },
+    {
+      "name": "Committee Dissolution",
+      "fields": [
+        "Committee",
+        "Reason",
+        "Replacement (if any)"
+      ],
+      "enabled": true,
+      "requiresSupermajority": false,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    },
+    {
+      "name": "Vote of Confidence",
+      "fields": [
+        "Official",
+        "Position",
+        "Reason"
+      ],
+      "enabled": true,
+      "requiresSupermajority": false,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    },
+    {
+      "name": "Vote of No Confidence",
+      "fields": [
+        "Official",
+        "Position",
+        "Grounds",
+        "Evidence"
+      ],
+      "enabled": true,
+      "requiresSupermajority": true,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    }
+  ]
+}
+{
+  "name": "Membership",
+  "subcategories": [
+    {
+      "name": "Membership Admission",
+      "fields": [
+        "Nation",
+        "Reason for Admission",
+        "Notes"
+      ],
+      "enabled": true,
+      "requiresSupermajority": false,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    },
+    {
+      "name": "Membership Suspension",
+      "fields": [
+        "Nation",
+        "Reason",
+        "Suspension Length",
+        "Conditions for Reinstatement"
+      ],
+      "enabled": true,
+      "requiresSupermajority": false,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    },
+    {
+      "name": "Membership Expulsion",
+      "fields": [
+        "Nation",
+        "Reason",
+        "Evidence",
+        "Effective Date"
+      ],
+      "enabled": true,
+      "requiresSupermajority": true,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    },
+    {
+      "name": "Membership Reinstatement",
+      "fields": [
+        "Nation",
+        "Reason",
+        "Supporting Information"
+      ],
+      "enabled": true,
+      "requiresSupermajority": false,
+      "allowedRole": null,
+      "body": "GA",
+      "vetoable": false
+    }
+  ]
+}
