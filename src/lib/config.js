@@ -28,4 +28,12 @@ function setValue(pathStr, value) {
   return config;
 }
 
-module.exports = { getConfig, getValue, setValue };
+// Replaces the ENTIRE config with a new object - used only by /config
+// restore, when importing a backup file. Everyday changes should go
+// through setValue() instead, which only touches one setting at a time.
+function setFullConfig(newConfig) {
+  writeConfig(newConfig);
+  return newConfig;
+}
+
+module.exports = { getConfig, getValue, setValue, setFullConfig };
