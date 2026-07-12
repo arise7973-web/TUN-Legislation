@@ -4,6 +4,7 @@
 
 const { SlashCommandBuilder, PermissionFlagsBits, AttachmentBuilder } = require('discord.js');
 const { getConfig, setValue, getValue, setFullConfig } = require('../lib/config');
+const { readJSON, writeJSON } = require('../lib/storage');
 const { isAdmin } = require('../lib/permissions');
 const { renderConfigView } = require('../lib/configView');
 const { logAudit } = require('../lib/audit');
@@ -39,13 +40,17 @@ module.exports = {
       sub.setName('view').setDescription('Show the current configuration')
     )
     .addSubcommand((sub) =>
-      sub.setName('backup').setDescription('Download a backup file of the entire current configuration')
+      sub.setName('backup').setDescription('Download a full backup: settings, templates, resolutions, elections, and numbering')
     )
     .addSubcommand((sub) =>
       sub
         .setName('restore')
-        .setDescription('Restore configuration from a backup file created by /config backup')
-        .addAttachmentOption((opt) => opt.setName('file').setDescription('The .json backup file to restore').setRequired(true))
+        .setDescription('Restore from backup file(s) created by /config backup - attach only what you want to restore')
+        .addAttachmentOption((opt) => opt.setName('config_file').setDescription('Settings backup (config.json)').setRequired(false))
+        .addAttachmentOption((opt) => opt.setName('templates_file').setDescription('Templates backup (templates.json)').setRequired(false))
+        .addAttachmentOption((opt) => opt.setName('resolutions_file').setDescription('Resolutions archive backup (resolutions.json)').setRequired(false))
+        .addAttachmentOption((opt) => opt.setName('elections_file').setDescription('Elections backup (elections.json)').setRequired(false))
+        .addAttachmentOption((opt) => opt.setName('counters_file').setDescription('Numbering counters backup (counters.json)').setRequired(false))
     )
     .addSubcommand((sub) =>
       sub
@@ -265,55 +270,94 @@ module.exports = {
     }
 
     if (sub === 'backup') {
-      const json = JSON.stringify(config, null, 2);
-      const buffer = Buffer.from(json, 'utf8');
-      const filename = `tun-bot-config-backup-${new Date().toISOString().slice(0, 10)}.json`;
-      const attachment = new AttachmentBuilder(buffer, { name: filename });
+      const today = new Date().toISOString().slice(0, 10);
+      const files = [
+        { data: config, name: `tun-bot-config-backup-${today}.json` },
+        { data: readJSON('templates.json', []), name: `tun-bot-templates-backup-${today}.json` },
+        { data: readJSON('resolutions.json', []), name: `tun-bot-resolutions-backup-${today}.json` },
+        { data: readJSON('elections.json', []), name: `tun-bot-elections-backup-${today}.json` },
+        { data: readJSON('counters.json', {}), name: `tun-bot-counters-backup-${today}.json` },
+      ].map(({ data, name }) => new AttachmentBuilder(Buffer.from(JSON.stringify(data, null, 2), 'utf8'), { name }));
 
       return interaction.reply({
         content:
-          '📦 Here is a full backup of the current configuration. **Download this file and save it somewhere safe** (your computer, cloud storage, etc.) - if settings are ever lost or you want to roll back, upload it with `/config restore`.',
-        files: [attachment],
+          '📦 Here is a full backup: settings, templates, resolutions archive, elections, and numbering counters. **Download all five files and save them somewhere safe** (your computer, cloud storage, etc.) - if anything is ever lost, restore any of them with `/config restore` (attach only the ones you need).',
+        files,
       });
     }
 
     if (sub === 'restore') {
-      const attachment = interaction.options.getAttachment('file');
-      if (!attachment || !attachment.name.toLowerCase().endsWith('.json')) {
-        return interaction.reply({ content: '❌ Please attach a `.json` backup file created by `/config backup`.', ephemeral: true });
+      const attachmentSpecs = [
+        { option: 'config_file', filename: 'config.json', label: 'Settings' },
+        { option: 'templates_file', filename: 'templates.json', label: 'Templates' },
+        { option: 'resolutions_file', filename: 'resolutions.json', label: 'Resolutions archive' },
+        { option: 'elections_file', filename: 'elections.json', label: 'Elections' },
+        { option: 'counters_file', filename: 'counters.json', label: 'Numbering counters' },
+      ];
+
+      const provided = attachmentSpecs
+        .map((spec) => ({ ...spec, attachment: interaction.options.getAttachment(spec.option) }))
+        .filter((spec) => spec.attachment);
+
+      if (provided.length === 0) {
+        return interaction.reply({
+          content: '❌ Attach at least one backup file to restore (e.g. `config_file` for settings, `templates_file` for templates, etc.).',
+          ephemeral: true,
+        });
       }
 
       await interaction.deferReply({ ephemeral: true });
 
-      try {
-        const response = await fetch(attachment.url);
-        const text = await response.text();
-        const parsed = JSON.parse(text);
+      const restoredLabels = [];
+      const failedLabels = [];
+      const preRestoreBackups = [];
 
-        // Basic sanity check so we don't overwrite everything with some
-        // unrelated JSON file someone accidentally attached.
-        if (!parsed.roles || !parsed.channels || !parsed.securityCouncil || !parsed.elections) {
-          return interaction.editReply({ content: "❌ That file doesn't look like a valid TUN bot configuration backup." });
+      for (const spec of provided) {
+        try {
+          const response = await fetch(spec.attachment.url);
+          const text = await response.text();
+          const parsed = JSON.parse(text);
+
+          if (spec.filename === 'config.json') {
+            if (!parsed.roles || !parsed.channels || !parsed.securityCouncil || !parsed.elections) {
+              failedLabels.push(`${spec.label} (doesn't look like a valid settings backup)`);
+              continue;
+            }
+            preRestoreBackups.push(new AttachmentBuilder(Buffer.from(JSON.stringify(config, null, 2), 'utf8'), { name: `pre-restore-config-${Date.now()}.json` }));
+            setFullConfig(parsed);
+          } else if (spec.filename === 'counters.json') {
+            if (typeof parsed !== 'object' || Array.isArray(parsed) || parsed === null) {
+              failedLabels.push(`${spec.label} (expected an object, not a list)`);
+              continue;
+            }
+            preRestoreBackups.push(new AttachmentBuilder(Buffer.from(JSON.stringify(readJSON('counters.json', {}), null, 2), 'utf8'), { name: `pre-restore-counters-${Date.now()}.json` }));
+            writeJSON('counters.json', parsed);
+          } else {
+            if (!Array.isArray(parsed)) {
+              failedLabels.push(`${spec.label} (expected a list of records)`);
+              continue;
+            }
+            preRestoreBackups.push(new AttachmentBuilder(Buffer.from(JSON.stringify(readJSON(spec.filename, []), null, 2), 'utf8'), { name: `pre-restore-${spec.filename}` }));
+            writeJSON(spec.filename, parsed);
+          }
+          restoredLabels.push(spec.label);
+        } catch (err) {
+          console.error(`Failed to restore ${spec.filename}:`, err);
+          failedLabels.push(`${spec.label} (couldn't be read - make sure it's valid JSON)`);
         }
-
-        // Automatically back up whatever is about to be overwritten, so a
-        // restore can never truly destroy anything - even a mistaken one.
-        const preRestoreJson = JSON.stringify(config, null, 2);
-        const preRestoreAttachment = new AttachmentBuilder(Buffer.from(preRestoreJson, 'utf8'), {
-          name: `pre-restore-backup-${Date.now()}.json`,
-        });
-
-        setFullConfig(parsed);
-        logAudit(interaction.client, 'Configuration Restored', `Configuration restored from an uploaded backup by ${interaction.user.tag}.`).catch((err) => console.error(err));
-
-        return interaction.editReply({
-          content: '✅ Configuration restored from the uploaded backup. For safety, here is a backup of what was just replaced, in case you need to undo this:',
-          files: [preRestoreAttachment],
-        });
-      } catch (err) {
-        console.error('Failed to restore config:', err);
-        return interaction.editReply({ content: "❌ Couldn't restore from that file - make sure it's valid JSON from a real `/config backup`." });
       }
+
+      logAudit(interaction.client, 'Configuration/Data Restored', `${restoredLabels.join(', ') || 'Nothing'} restored from uploaded backup(s) by ${interaction.user.tag}.`).catch((err) => console.error(err));
+
+      const summary = [
+        restoredLabels.length ? `✅ Restored: ${restoredLabels.join(', ')}.` : null,
+        failedLabels.length ? `❌ Skipped: ${failedLabels.join(', ')}.` : null,
+        preRestoreBackups.length ? 'For safety, backups of what was just replaced are attached below.' : null,
+      ]
+        .filter(Boolean)
+        .join('\n');
+
+      return interaction.editReply({ content: summary, files: preRestoreBackups });
     }
 
     if (sub === 'add-role') {
