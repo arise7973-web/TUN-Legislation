@@ -13,7 +13,8 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 const { getConfig } = require('../lib/config');
 const { isAdmin } = require('../lib/permissions');
-const { getAllTemplates, saveAllTemplates, findTemplate } = require('../lib/resolutions');
+const { getAllTemplates, saveAllTemplates, findTemplate, getAllResolutions, saveAllResolutions, ACTIVE_STATUSES } = require('../lib/resolutions');
+const { logAudit } = require('../lib/audit');
 
 module.exports = {
   category: 'Administration',
@@ -51,6 +52,33 @@ module.exports = {
             )
         )
         .addBooleanOption((o) => o.setName('vetoable').setDescription('Can Permanent SC Members veto this? Default: true (only matters if body includes SC)').setRequired(false))
+    )
+    .addSubcommand((sub) =>
+      sub
+        .setName('edit')
+        .setDescription('Edit an existing template - only fields you provide get changed')
+        .addStringOption((o) => o.setName('name').setDescription('Current template name').setRequired(true).setAutocomplete(true))
+        .addStringOption((o) => o.setName('new_name').setDescription('Rename the template').setRequired(false))
+        .addStringOption((o) => o.setName('fields').setDescription('Replace the entire field list (comma-separated, max 5)').setRequired(false))
+        .addStringOption((o) =>
+          o.setName('subcategories').setDescription('Replace the entire sub-category list (comma-separated). Type "none" to clear them all.').setRequired(false)
+        )
+        .addBooleanOption((o) => o.setName('supermajority').setDescription('Require supermajority instead of simple majority?').setRequired(false))
+        .addRoleOption((o) => o.setName('restrict_to_role').setDescription('Only members with this role may use this template').setRequired(false))
+        .addBooleanOption((o) => o.setName('clear_role_restriction').setDescription('Set to True to remove any role restriction').setRequired(false))
+        .addStringOption((o) =>
+          o
+            .setName('body')
+            .setDescription('Which body votes on this?')
+            .setRequired(false)
+            .addChoices(
+              { name: 'General Assembly only', value: 'GA' },
+              { name: 'Security Council only', value: 'SC' },
+              { name: 'Both (GA and SC must both approve)', value: 'Both' }
+            )
+        )
+        .addBooleanOption((o) => o.setName('vetoable').setDescription('Can Permanent SC Members veto this?').setRequired(false))
+        .addBooleanOption((o) => o.setName('enabled').setDescription('Enable or disable this template').setRequired(false))
     )
     .addSubcommand((sub) =>
       sub.setName('list').setDescription('List all templates')
@@ -135,6 +163,114 @@ module.exports = {
         content: `✅ Template **${name}** created with fields: ${fields.join(', ')}.${
           subcategories.length ? ` Sub-categories: ${subcategories.join(', ')}.` : ''
         } Body: ${body}${body !== 'GA' ? ` (vetoable: ${vetoable === null ? true : vetoable})` : ''}`,
+        ephemeral: true,
+      });
+    }
+
+    if (sub === 'edit') {
+      const name = interaction.options.getString('name');
+      const templates = getAllTemplates();
+      const t = templates.find((x) => x.name.toLowerCase() === name.toLowerCase());
+      if (!t) return interaction.reply({ content: `❌ No template named **${name}**.`, ephemeral: true });
+
+      const changes = [];
+
+      const newName = interaction.options.getString('new_name');
+      if (newName && newName.trim() && newName.trim().toLowerCase() !== t.name.toLowerCase()) {
+        const collision = templates.find((x) => x.name.toLowerCase() === newName.trim().toLowerCase());
+        if (collision) {
+          return interaction.reply({ content: `❌ A template named **${newName.trim()}** already exists.`, ephemeral: true });
+        }
+        const oldName = t.name;
+        t.name = newName.trim();
+        changes.push(`name → **${t.name}**`);
+
+        // Resolutions look their template back up BY NAME (to read live
+        // rules like majority threshold and veto eligibility right up
+        // until voting opens), so a rename has to follow any resolution
+        // still in progress - otherwise it would silently lose its rules.
+        const resolutions = getAllResolutions();
+        let relinked = 0;
+        for (const r of resolutions) {
+          if (r.templateName === oldName && ACTIVE_STATUSES.includes(r.status)) {
+            r.templateName = t.name;
+            relinked += 1;
+          }
+        }
+        if (relinked > 0) {
+          saveAllResolutions(resolutions);
+          changes.push(`${relinked} in-progress resolution(s) relinked to the new name`);
+        }
+      }
+
+      const fieldsRaw = interaction.options.getString('fields');
+      if (fieldsRaw) {
+        const fields = fieldsRaw.split(',').map((f) => f.trim()).filter(Boolean);
+        if (fields.length === 0 || fields.length > 5) {
+          return interaction.reply({ content: '❌ Please provide between 1 and 5 field names, separated by commas.', ephemeral: true });
+        }
+        t.fields = fields;
+        changes.push(`fields → ${fields.join(', ')}`);
+      }
+
+      const subcategoriesRaw = interaction.options.getString('subcategories');
+      if (subcategoriesRaw !== null) {
+        if (subcategoriesRaw.trim().toLowerCase() === 'none' || subcategoriesRaw.trim() === '') {
+          t.subcategories = [];
+          changes.push('sub-categories → cleared');
+        } else {
+          const subcategories = subcategoriesRaw.split(',').map((s) => s.trim()).filter(Boolean);
+          if (subcategories.length > 25) {
+            return interaction.reply({ content: '❌ A template can have at most 25 sub-categories (a Discord dropdown limit).', ephemeral: true });
+          }
+          t.subcategories = subcategories;
+          changes.push(`sub-categories → ${subcategories.join(', ')}`);
+        }
+      }
+
+      const supermajority = interaction.options.getBoolean('supermajority');
+      if (supermajority !== null) {
+        t.requiresSupermajority = supermajority;
+        changes.push(`requires supermajority → ${supermajority}`);
+      }
+
+      const clearRole = interaction.options.getBoolean('clear_role_restriction');
+      const restrictRole = interaction.options.getRole('restrict_to_role');
+      if (clearRole) {
+        t.allowedRole = null;
+        changes.push('role restriction → cleared');
+      } else if (restrictRole) {
+        t.allowedRole = restrictRole.id;
+        changes.push(`restricted to → <@&${restrictRole.id}>`);
+      }
+
+      const body = interaction.options.getString('body');
+      if (body) {
+        t.body = body;
+        changes.push(`body → ${body}`);
+      }
+
+      const vetoable = interaction.options.getBoolean('vetoable');
+      if (vetoable !== null) {
+        t.vetoable = vetoable;
+        changes.push(`vetoable → ${vetoable}`);
+      }
+
+      const enabled = interaction.options.getBoolean('enabled');
+      if (enabled !== null) {
+        t.enabled = enabled;
+        changes.push(`enabled → ${enabled}`);
+      }
+
+      if (changes.length === 0) {
+        return interaction.reply({ content: '❌ You must provide at least one thing to change.', ephemeral: true });
+      }
+
+      saveAllTemplates(templates);
+      logAudit(interaction.client, 'Template Edited', `**${t.name}** edited by ${interaction.user.tag}:\n${changes.join('\n')}`).catch((err) => console.error(err));
+
+      return interaction.reply({
+        content: `✅ Template **${t.name}** updated:\n${changes.map((c) => `• ${c}`).join('\n')}`,
         ephemeral: true,
       });
     }
