@@ -21,7 +21,7 @@ const {
 const { getConfig } = require('./lib/config');
 const { initializeDataFiles } = require('./lib/storage');
 const { isEligibleVoter, isSCMember, isSCPermanentMember, isAdmin, getVoteWeight } = require('./lib/permissions');
-const { findTemplate, findResolution, getAllResolutions, upsertResolution, getActiveResolutionsByMember, EDITABLE_STATUSES, SELF_DELETABLE_STATUSES } = require('./lib/resolutions');
+const { findTemplate, findResolution, getAllResolutions, getAllTemplates, upsertResolution, getActiveResolutionsByMember, EDITABLE_STATUSES, SELF_DELETABLE_STATUSES } = require('./lib/resolutions');
 const { nextResolutionNumber } = require('./lib/numbering');
 const { resolutionEmbed, amendmentEmbed } = require('./lib/embeds');
 const { logAudit, notify, dmUser } = require('./lib/audit');
@@ -154,6 +154,19 @@ client.on('interactionCreate', async (interaction) => {
             amendments.slice(0, 25).map((a) => ({
               name: `${a.id} — ${AMENDMENT_TYPE_LABELS[a.type] || a.type} → ${a.targetField} (${a.status})`.slice(0, 100),
               value: a.id,
+            }))
+          )
+          .catch(() => {});
+      }
+
+      if (cmd === 'template' && focused.name === 'name') {
+        const query = focused.value.toLowerCase();
+        const templates = getAllTemplates().filter((t) => t.name.toLowerCase().includes(query));
+        return interaction
+          .respond(
+            templates.slice(0, 25).map((t) => ({
+              name: `${t.name} (${t.enabled ? 'enabled' : 'disabled'}, body: ${t.body || 'GA'})`.slice(0, 100),
+              value: t.name,
             }))
           )
           .catch(() => {});
