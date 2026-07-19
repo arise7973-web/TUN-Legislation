@@ -91,7 +91,7 @@ function buildGeneralAssemblyEmbed(config) {
         name: 'TOGGLES',
         value: [
           `Allow Vote Changes: ${toggle(config.allowVoteChanges)}`,
-          `Public Voting: ${toggle(config.publicVoting)}`,
+          `Public Voting: ${toggle(config.publicVoting)}${config.publicVoting ? '' : ' *(anonymous — Yes/No/Abstain breakdown hidden)*'}`,
           `Live Results During Vote: ${toggle(config.liveResultsDuringVote)}`,
           `DM Notifications to Proposer: ${toggle(config.dmNotifications)}`,
           `Max Active Resolutions Per Member: ${config.maxActiveResolutionsPerMember > 0 ? config.maxActiveResolutionsPerMember : '*Unlimited*'}`,
