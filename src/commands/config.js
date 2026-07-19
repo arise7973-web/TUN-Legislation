@@ -165,8 +165,8 @@ module.exports = {
             .setRequired(true)
             .addChoices(
               { name: 'Allow vote changes', value: 'allowVoteChanges' },
-              { name: 'Public voting', value: 'publicVoting' },
-              { name: 'Live results during vote', value: 'liveResultsDuringVote' },
+              { name: 'Public Voting (off = anonymous, hides Yes/No/Abstain breakdown)', value: 'publicVoting' },
+              { name: 'Live Results During Vote (shows breakdown live even if not Public)', value: 'liveResultsDuringVote' },
               { name: 'DM Notifications to Proposer', value: 'dmNotifications' },
               { name: 'Veto Enabled', value: 'securityCouncil.veto.enabled' },
               { name: 'Veto Immediately Ends Vote', value: 'securityCouncil.veto.immediatelyTerminates' },
