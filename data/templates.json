@@ -31,8 +31,7 @@
       "Dissolve Ministry",
       "Create Committee",
       "Dissolve Committee",
-      "Government Restructure",
-      "Delegation of Authority"
+      "Government Restructure"
     ],
     "enabled": true,
     "requiresSupermajority": false,
@@ -49,8 +48,6 @@
       "Duration / Conditions"
     ],
     "subcategories": [
-      "Membership Warning",
-      "Membership Probation",
       "Membership Suspension",
       "Membership Expulsion",
       "Membership Reinstatement"
@@ -70,9 +67,8 @@
       "Effective Date"
     ],
     "subcategories": [
-      "Cash Tax",
-      "Resource Tax",
-      "Internal Tax",
+      "Cash & RSS Tax",
+      "Internal Tax Rate",
       "Emergency Tax"
     ],
     "enabled": true,
@@ -93,8 +89,7 @@
       "City Grant",
       "Project Grant",
       "Military Grant",
-      "Emergency Grant",
-      "Growth Grant"
+      "Emergency Grant"
     ],
     "enabled": true,
     "requiresSupermajority": false,
@@ -115,8 +110,7 @@
       "Non-Aggression Pact",
       "Protectorate Agreement",
       "Peace, Intelligence and Aid Treaty (PIAT)",
-      "Treaty Withdrawal",
-      "Alliance Recognition"
+      "Treaty Withdrawal"
     ],
     "enabled": true,
     "requiresSupermajority": true,
@@ -183,7 +177,7 @@
     "Recruitment Incentive",
     "Mentorship Program",
     "Academy Reform",
-    "Member Retention Policy",
+    "Member Activity Policy",
     "Application Requirement"
   ],
   "enabled": true,
@@ -266,8 +260,7 @@
   "subcategories": [
     "Alliance Embargo",
     "Economic Sanctions",
-    "Blacklist Nation",
-    "Blacklist Alliance"
+    "Blacklist Nation"
   ],
   "enabled": true,
   "requiresSupermajority": false,
@@ -286,9 +279,7 @@
   "subcategories": [
     "Declare Hostile Nation",
     "Declare Hostile Alliance",
-    "Threat Classification",
-    "Security Watchlist",
-    "National Security Advisory"
+    "Security Watchlist"
   ],
   "enabled": true,
   "requiresSupermajority": false,
