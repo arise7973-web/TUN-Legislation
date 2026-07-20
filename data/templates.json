@@ -1,133 +1,180 @@
 [
   {
-  "name": "Constitutional Affairs",
-  "subcategories": [
-    "Constitutional Amendment",
-    "Constitutional Repeal",
-    "Constitutional Interpretation",
-    "Government Structure Reform",
-    "Legislative Procedure Amendment"
-  ],
-  "fields": [
-    "Title",
-    "Description",
-    "Justification",
-    "Articles Affected",
-    "Implementation"
-  ],
-  "enabled": true,
-  "requiresSupermajority": true,
-  "allowedRole": null,
-  "body": "GA",
-  "vetoable": false
-},
-{
-  "name": "Governance",
-  "subcategories": [
-    "Government Policy",
-    "Ministry Creation",
-    "Ministry Dissolution",
-    "Committee Creation",
-    "Committee Dissolution",
-    "Delegation of Authority",
-    "Government Procedure Reform"
-  ],
-  "fields": [
-    "Title",
-    "Description",
-    "Reason",
-    "Implementation"
-  ],
-  "enabled": true,
-  "requiresSupermajority": false,
-  "allowedRole": null,
-  "body": "GA",
-  "vetoable": false
-},
-{
-  "name": "Membership",
-  "subcategories": [
-    "Membership Exception",
-    "Membership Suspension",
-    "Membership Expulsion",
-    "Membership Reinstatement",
-    "Membership Probation",
-    "Membership Warning"
-  ],
-  "fields": [
-    "Nation",
-    "Reason",
-    "Evidence",
-    "Duration / Conditions"
-  ],
-  "enabled": true,
-  "requiresSupermajority": true,
-  "allowedRole": null,
-  "body": "GA",
-  "vetoable": false
-},
-{
-  "name": "Economic Policy",
-  "subcategories": [
-    "Tax Policy",
-    "Grant Policy",
-    "Loan Policy",
-    "Budget Approval",
-    "Budget Amendment",
-    "Resource Distribution",
-    "Economic Incentive Program",
-    "Bank Reserve Policy"
-  ],
-  "fields": [
-    "Policy Name",
-    "Description",
-    "Financial Impact",
-    "Effective Date"
-  ],
-  "enabled": true,
-  "requiresSupermajority": false,
-  "allowedRole": null,
-  "body": "GA",
-  "vetoable": false
-},
-
+    "name": "Constitutional Affairs",
+    "fields": [
+      "Article(s) Affected",
+      "Current Text",
+      "Proposed Text",
+      "Reason"
+    ],
+    "subcategories": [
+      "Constitutional Amendment",
+      "Constitutional Repeal",
+      "Constitutional Interpretation"
+    ],
+    "enabled": true,
+    "requiresSupermajority": true,
+    "allowedRole": null,
+    "body": "GA",
+    "vetoable": false
+  },
   {
-  "name": "Foreign Affairs",
-  "subcategories": [
-    "Mutual Defence Treaty",
-    "Non-Aggression Pact",
-    "Protectorate Agreement",
-    "Alliance Recognition",
-    "Recognition Withdrawal",
-    "Treaty Ratification",
-    "Treaty Withdrawal"
-  ],
-  "fields": [
-    "Alliance",
-    "Proposal",
-    "Reason",
-    "Terms"
-  ],
-  "enabled": true,
-  "requiresSupermajority": true,
-  "allowedRole": null,
-  "body": "GA",
-  "vetoable": false
-},
+    "name": "Government Organization",
+    "fields": [
+      "Government Body",
+      "Proposal",
+      "Reason",
+      "Implementation"
+    ],
+    "subcategories": [
+      "Create Ministry",
+      "Dissolve Ministry",
+      "Create Committee",
+      "Dissolve Committee",
+      "Government Restructure",
+      "Delegation of Authority"
+    ],
+    "enabled": true,
+    "requiresSupermajority": false,
+    "allowedRole": null,
+    "body": "GA",
+    "vetoable": false
+  },
+  {
+    "name": "Membership Discipline",
+    "fields": [
+      "Nation",
+      "Reason",
+      "Evidence",
+      "Duration / Conditions"
+    ],
+    "subcategories": [
+      "Membership Warning",
+      "Membership Probation",
+      "Membership Suspension",
+      "Membership Expulsion",
+      "Membership Reinstatement"
+    ],
+    "enabled": true,
+    "requiresSupermajority": true,
+    "allowedRole": null,
+    "body": "GA",
+    "vetoable": false
+  },
+  {
+    "name": "Tax Policy",
+    "fields": [
+      "Current Tax Rate",
+      "Proposed Tax Rate",
+      "Reason",
+      "Effective Date"
+    ],
+    "subcategories": [
+      "Income Tax",
+      "Resource Tax",
+      "Emergency Tax"
+    ],
+    "enabled": true,
+    "requiresSupermajority": false,
+    "allowedRole": null,
+    "body": "GA",
+    "vetoable": false
+  },
+  {
+    "name": "Grant Policy",
+    "fields": [
+      "Grant Type",
+      "Eligibility",
+      "Grant Amount",
+      "Reason"
+    ],
+    "subcategories": [
+      "City Grant",
+      "Project Grant",
+      "Military Grant",
+      "Emergency Grant",
+      "Growth Grant"
+    ],
+    "enabled": true,
+    "requiresSupermajority": false,
+    "allowedRole": null,
+    "body": "GA",
+    "vetoable": false
+  },
+  {
+    "name": "Budget Resolution",
+    "fields": [
+      "Budget Period",
+      "Budget Amount",
+      "Allocation",
+      "Reason"
+    ],
+    "subcategories": [
+      "Annual Budget",
+      "Supplementary Budget",
+      "Emergency Budget"
+    ],
+    "enabled": true,
+    "requiresSupermajority": false,
+    "allowedRole": null,
+    "body": "GA",
+    "vetoable": false
+  },
+  {
+    "name": "Banking Policy",
+    "fields": [
+      "Policy",
+      "Description",
+      "Reason",
+      "Effective Date"
+    ],
+    "subcategories": [
+      "Loan Policy",
+      "Reserve Policy",
+      "Resource Distribution",
+      "Deposit Requirement"
+    ],
+    "enabled": true,
+    "requiresSupermajority": false,
+    "allowedRole": null,
+    "body": "GA",
+    "vetoable": false
+  },
+  {
+    "name": "Foreign Relations",
+    "fields": [
+      "Alliance",
+      "Reason",
+      "Terms",
+      "Duration"
+    ],
+    "subcategories": [
+      "Mutual Defence Treaty",
+      "Non-Aggression Pact",
+      "Protectorate Agreement",
+      "Peace Treaty",
+      "Alliance Recognition"
+    ],
+    "enabled": true,
+    "requiresSupermajority": true,
+    "allowedRole": null,
+    "body": "GA",
+    "vetoable": true
+  },
 {
-  "name": "Justice & Oversight",
-  "subcategories": [
-    "Vote of Confidence",
-    "Vote of No Confidence",
-    "Official Censure",
-    "Investigation Authorization",
-    "Ethics Policy"
-  ],
+  "name": "Justice & Accountability",
   "fields": [
     "Subject",
     "Reason",
     "Evidence",
     "Recommended Action"
+  ],
+  "subcategories": [
+    "Vote of Confidence",
+    "Vote of No Confidence",
+    "Official Censure",
+    "Official Commendation",
+    "Investigation Authorization"
   ],
   "enabled": true,
   "requiresSupermajority": false,
@@ -137,24 +184,23 @@
 },
 {
   "name": "Alliance Standards",
-  "subcategories": [
-    "Activity Standards",
-    "Infrastructure Standards",
-    "Land Standards",
-    "MMR Standards",
-    "Warchest Standards",
-    "City Build Standards",
-    "Project Standards",
-    "Resource Standards",
-    "Raid Standards",
-    "Spy Standards",
-    "Color Bloc Policy"
-  ],
   "fields": [
     "Current Standard",
     "Proposed Standard",
     "Reason",
     "Effective Date"
+  ],
+  "subcategories": [
+    "Infrastructure Standard",
+    "Land Standard",
+    "MMR Standard",
+    "Military Readiness Standard",
+    "Project Standard",
+    "Resource Production Standard",
+    "Warchest Standard",
+    "Raid Requirement",
+    "Spy Requirement",
+    "Color Bloc Policy"
   ],
   "enabled": true,
   "requiresSupermajority": false,
@@ -163,23 +209,20 @@
   "vetoable": false
 },
 {
-  "name": "Strategic Development",
-  "subcategories": [
-    "Recruitment Strategy",
-    "Recruitment Incentive Program",
-    "Member Retention Strategy",
-    "Mentorship Program",
-    "Training Program",
-    "Economic Development Strategy",
-    "Technology Initiative",
-    "Alliance Expansion Strategy",
-    "Long-term Alliance Goals"
-  ],
+  "name": "Recruitment & Membership",
   "fields": [
     "Proposal",
-    "Objective",
-    "Implementation Plan",
-    "Expected Outcome"
+    "Description",
+    "Reason",
+    "Implementation"
+  ],
+  "subcategories": [
+    "Recruitment Policy",
+    "Recruitment Incentive",
+    "Mentorship Program",
+    "Academy Reform",
+    "Member Retention Policy",
+    "Application Requirement"
   ],
   "enabled": true,
   "requiresSupermajority": false,
@@ -187,25 +230,125 @@
   "body": "GA",
   "vetoable": false
 },
-
-  {
-  "name": "Military Operations",
-  "subcategories": [
-    "Authorize Offensive War",
-    "Authorize Defensive War",
-    "Authorize Military Operation",
-    "Authorize Counteroffensive",
-    "Authorize Coalition Participation",
-    "Authorize Alliance-wide Raid Campaign",
-    "Authorize Military Withdrawal",
-    "Authorize Military Ceasefire",
-    "Authorize Peace Negotiation"
+{
+  "name": "Alliance Development",
+  "fields": [
+    "Proposal",
+    "Objective",
+    "Implementation Plan",
+    "Expected Outcome"
   ],
+  "subcategories": [
+    "Economic Development",
+    "Technology Initiative",
+    "Alliance Expansion",
+    "Infrastructure Development",
+    "Community Development",
+    "Long-term Strategic Plan"
+  ],
+  "enabled": true,
+  "requiresSupermajority": false,
+  "allowedRole": null,
+  "body": "GA",
+  "vetoable": false
+},
+{
+  "name": "Election & Appointment",
+  "fields": [
+    "Office",
+    "Reason",
+    "Effective Date",
+    "Additional Notes"
+  ],
+  "subcategories": [
+    "Call for Election",
+    "Early Election",
+    "Appointment Confirmation",
+    "Removal from Office",
+    "Vacancy Declaration"
+  ],
+  "enabled": true,
+  "requiresSupermajority": false,
+  "allowedRole": null,
+  "body": "GA",
+  "vetoable": false
+},
+{
+  "name": "Alliance Administration",
+  "fields": [
+    "Proposal",
+    "Description",
+    "Reason",
+    "Implementation"
+  ],
+  "subcategories": [
+    "Create Government Office",
+    "Dissolve Government Office",
+    "Create Official Program",
+    "Amend Official Program",
+    "Alliance-wide Event",
+    "Administrative Reform"
+  ],
+  "enabled": true,
+  "requiresSupermajority": false,
+  "allowedRole": null,
+  "body": "GA",
+  "vetoable": false
+},
+{
+  "name": "Alliance Recognition",
+  "fields": [
+    "Recipient",
+    "Reason",
+    "Description",
+    "Effective Date"
+  ],
+  "subcategories": [
+    "Award of Merit",
+    "Honorary Membership",
+    "Special Recognition",
+    "Official Condemnation"
+  ],
+  "enabled": true,
+  "requiresSupermajority": false,
+  "allowedRole": null,
+  "body": "GA",
+  "vetoable": false
+},
+{
+  "name": "Military Authorization",
   "fields": [
     "Target",
     "Objective",
     "Reason",
     "Duration"
+  ],
+  "subcategories": [
+    "Authorize Offensive War",
+    "Authorize Defensive War",
+    "Authorize Military Operation",
+    "Authorize Counteroffensive",
+    "Authorize Alliance Raid Campaign"
+  ],
+  "enabled": true,
+  "requiresSupermajority": true,
+  "allowedRole": null,
+  "body": "SC",
+  "vetoable": false
+},
+{
+  "name": "Military Conclusion",
+  "fields": [
+    "Operation",
+    "Reason",
+    "Terms",
+    "Effective Date"
+  ],
+  "subcategories": [
+    "Military Withdrawal",
+    "Ceasefire",
+    "Peace Agreement",
+    "Operation Termination"
   ],
   "enabled": true,
   "requiresSupermajority": true,
@@ -215,22 +358,40 @@
 },
 {
   "name": "Military Doctrine",
-  "subcategories": [
-    "Peace-time Military Doctrine",
-    "War-time Military Doctrine",
-    "Minimum MMR Requirement",
-    "Minimum Aircraft Requirement",
-    "Minimum Navy Requirement",
-    "Minimum Soldier Requirement",
-    "Military Readiness Order",
-    "Rules of Engagement",
-    "War Priority Directive"
-  ],
   "fields": [
     "Policy",
     "Description",
     "Reason",
     "Implementation"
+  ],
+  "subcategories": [
+    "Peace-time Doctrine",
+    "War-time Doctrine",
+    "Rules of Engagement",
+    "Military Readiness Order",
+    "War Priority Directive"
+  ],
+  "enabled": true,
+  "requiresSupermajority": false,
+  "allowedRole": null,
+  "body": "SC",
+  "vetoable": false
+},
+{
+  "name": "Military Standards",
+  "fields": [
+    "Current Standard",
+    "Proposed Standard",
+    "Reason",
+    "Effective Date"
+  ],
+  "subcategories": [
+    "MMR Requirement",
+    "Aircraft Requirement",
+    "Navy Requirement",
+    "Soldier Requirement",
+    "Missile Requirement",
+    "Nuclear Weapon Policy"
   ],
   "enabled": true,
   "requiresSupermajority": false,
@@ -240,21 +401,18 @@
 },
 {
   "name": "Intelligence Operations",
-  "subcategories": [
-    "Mass Espionage Campaign",
-    "Counter-Espionage Operation",
-    "Spy Network Expansion",
-    "Intelligence Sharing",
-    "Surveillance Authorization",
-    "Reconnaissance Operation",
-    "Covert Operation Approval",
-    "Counter-Intelligence Directive"
-  ],
   "fields": [
     "Target",
     "Objective",
     "Reason",
     "Duration"
+  ],
+  "subcategories": [
+    "Mass Espionage Campaign",
+    "Counter-Espionage Operation",
+    "Surveillance Authorization",
+    "Reconnaissance Operation",
+    "Covert Operation"
   ],
   "enabled": true,
   "requiresSupermajority": false,
@@ -262,24 +420,62 @@
   "body": "SC",
   "vetoable": false
 },
-
-  {
-  "name": "Security Measures",
-  "subcategories": [
-    "Alliance Embargo",
-    "Military Sanctions",
-    "Blacklist Nation",
-    "Blacklist Alliance",
-    "Threat Classification",
-    "Security Watchlist",
-    "Declare Hostile Alliance",
-    "Declare Rogue Nation"
+{
+  "name": "Intelligence Policy",
+  "fields": [
+    "Policy",
+    "Description",
+    "Reason",
+    "Implementation"
   ],
+  "subcategories": [
+    "Spy Network Expansion",
+    "Intelligence Sharing",
+    "Counter-Intelligence Directive",
+    "Espionage Priority"
+  ],
+  "enabled": true,
+  "requiresSupermajority": false,
+  "allowedRole": null,
+  "body": "SC",
+  "vetoable": false
+},
+{
+  "name": "Security Measures",
   "fields": [
     "Target",
     "Reason",
-    "Measures",
+    "Security Measures",
     "Duration"
+  ],
+  "subcategories": [
+    "Alliance Embargo",
+    "Military Sanctions",
+    "Economic Sanctions",
+    "Travel Restriction",
+    "Blacklist Nation",
+    "Blacklist Alliance"
+  ],
+  "enabled": true,
+  "requiresSupermajority": false,
+  "allowedRole": null,
+  "body": "SC",
+  "vetoable": false
+},
+{
+  "name": "Threat Assessment",
+  "fields": [
+    "Target",
+    "Threat Assessment",
+    "Supporting Evidence",
+    "Recommended Action"
+  ],
+  "subcategories": [
+    "Declare Hostile Nation",
+    "Declare Hostile Alliance",
+    "Threat Classification",
+    "Security Watchlist",
+    "National Security Advisory"
   ],
   "enabled": true,
   "requiresSupermajority": false,
@@ -289,48 +485,64 @@
 },
 {
   "name": "Strategic Operations",
-  "subcategories": [
-    "Operation Approval",
-    "Operation Expansion",
-    "Operation Extension",
-    "Operation Suspension",
-    "Operation Termination",
-    "Coalition Operation",
-    "Special Military Operation",
-    "Joint Intelligence Operation"
-  ],
   "fields": [
     "Operation Name",
     "Objective",
     "Operational Plan",
     "Duration"
   ],
+  "subcategories": [
+    "Special Military Operation",
+    "Coalition Operation",
+    "Joint Military Exercise",
+    "Strategic Reconnaissance",
+    "Alliance Mobilization"
+  ],
   "enabled": true,
-  "requiresSupermajority": false,
+  "requiresSupermajority": true,
   "allowedRole": null,
   "body": "SC",
   "vetoable": false
 },
 {
   "name": "Emergency Powers",
-  "subcategories": [
-    "State of Emergency",
-    "General Mobilization",
-    "Emergency Military Funding",
-    "Emergency Economic Measures",
-    "Emergency Intelligence Measures",
-    "Emergency Executive Authority",
-    "Emergency Defensive Measures",
-    "Emergency Resource Allocation"
-  ],
   "fields": [
     "Emergency",
     "Reason",
     "Emergency Measures",
     "Duration"
   ],
+  "subcategories": [
+    "State of Emergency",
+    "General Mobilization",
+    "Emergency Military Funding",
+    "Emergency Economic Measures",
+    "Emergency Resource Allocation",
+    "Emergency Intelligence Measures"
+  ],
   "enabled": true,
   "requiresSupermajority": true,
+  "allowedRole": null,
+  "body": "SC",
+  "vetoable": false
+},
+{
+  "name": "Defense Cooperation",
+  "fields": [
+    "Partner",
+    "Proposal",
+    "Reason",
+    "Duration"
+  ],
+  "subcategories": [
+    "Joint Military Planning",
+    "Joint Intelligence Sharing",
+    "Joint Training Program",
+    "Mutual Logistics Support",
+    "Defense Coordination"
+  ],
+  "enabled": true,
+  "requiresSupermajority": false,
   "allowedRole": null,
   "body": "SC",
   "vetoable": false
